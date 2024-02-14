@@ -40,6 +40,7 @@ const router = createBrowserRouter([
     path: "/moreInfo",
         element: <MoreinfoPage/>
   },
+  
 ]);
 
 

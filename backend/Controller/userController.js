@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const User = require('../models/UserModel')
 
-//@desc registers the user 
+//@desc registers the user  
 //@route POST/api/users
 //@acess private
 const registerUser = asyncHandler( async(req, res) => {
@@ -113,8 +113,33 @@ const getAll = asyncHandler( async(req, res)=> {
 
 })
 
+const deleteusers = asyncHandler(async(req, res) => {
+    const findUser = await User.findById(req.params.id)
+    const token = req.headers.authorization.split(' ')[1]
+   // console.log('selam')
+    //verifay token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+    console.log(decoded)
+    if(!findUser){
+        res.status(400)
+        throw new Error('invalid user id')
+    }
+
+    //  if(decoded.user.role !== 'admin'){
+    //     res.status(401)
+    //     throw new Error ('user not autorized')
+    //  }
+
+    
+    const deleteItem = await User.findByIdAndDelete(req.params.id, null) 
+    res.status(200).json({message: `user ${findUser.name} is deleted`})
+  
+})
+
+
 
 const generatetoken = (user) => {
    return jwt.sign({user}, process.env.JWT_SECRET, {expiresIn: '10d'})
 }
-module.exports = {registerUser, getMe, loginUser, getAll}
+module.exports = {registerUser, getMe, loginUser, getAll, deleteusers}

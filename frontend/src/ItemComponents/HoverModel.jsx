@@ -1,118 +1,212 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { useState /*useEffect*/ } from "react";
+//mui
+import { Container, Grid, Typography,CardMedia } from "@mui/material";
 
-const HoverModel = ({ isOpen, closeModal, item,onUpdate }) => {
+const HoverModel = ({
+  isOpen,
+  closeModal,
+  item,
+  onUpdate,
+  setIsModalOpen,
+  isModalOpen,
+}) => {
   const [provider, setProvider] = useState("");
   const [itemName, setItemName] = useState("");
   const [price, setprice] = useState("");
   const [amount, setAmount] = useState("");
- 
-  
+  const [image, setImage] = useState(null);
 
-  const timeSplited = item.createdAt.split("T");
-  const timeDisplayedDay = timeSplited[0];
+  // const timeSplited = item.createdAt.split("T");
+  // const timeDisplayedDay = timeSplited[0];
 
   const onCreatesubmit = async (e) => {
+    
     const storedToken = localStorage.getItem("token");
     let tokenString = "";
-    
 
     if (storedToken) {
       const tokenObject = JSON.parse(storedToken);
       tokenString = tokenObject.token;
-      
     }
     const bearerToken = tokenString;
-    
-    const newItem = {
-      provider: provider,
-      itemName: itemName,
-      price: price,
-      amount: amount,
-    };
 
-  try {
-    // Send the POST request to add the new song
-    const response = await fetch(`http://localhost:5000/api/items/${item._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${bearerToken}`,
-      },
-      body: JSON.stringify(newItem),
-    });
-      console.log(response)
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+    // const formData = new FormData();
+    // formData.append("itemName", itemName);
+    // formData.append("provider", provider);
+    // formData.append("price", price);
+    // formData.append("amount", amount);
+    // const newItem = {
+    //   provider: provider,
+    //   itemName: itemName,
+    //   price: price,
+    //   amount: amount,
+    //   image:image
+    // };
+    const formData = new FormData();
+    formData.append("itemName", itemName);
+    formData.append("provider", provider);
+    formData.append("price", price);
+    formData.append("amount", amount);
+
+    // Check if an image is selected
+    if (image) {
+      formData.append("image", image); // Append the selected image file to the form data
     }
 
-    const data = await response.json();
-    console.log(data)
-    onUpdate(data)
-    // window.location.href = "/mainpage";
-    // setProvider("");
-    // setItemName("");
-    // setprice("");
-    // setAmount("");
+    // if (image) {
+    //   formData.append("image", image); // Append the selected image file to the form data
+    // }
 
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
+    try {
+      console.log(formData, "new item");
+      // Send the POST request to add the new song
+      const response = await fetch(
+        `http://localhost:5000/api/items/${item._id}`,
+        {
+          method: "PUT",
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${bearerToken}`,
+            
+          },
+          
+          body: formData,
+        }
+      );
+    
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-}
-//console.log(item._id)
+      const data = await response.json();
+      console.log(data);
+      onUpdate(data);
+      // window.location.href = "/mainpage";
+      // setProvider("");
+      // setItemName("");
+      // setprice("");
+      // setAmount("");
+    } catch (error) {
+      console.error("Fetch error:", error);
+       alert("image updated");
+    }
+  };
+
+  const handleImageChange = (e) => {
+    // Update the 'image' state when a new image is selected
+    const file = e.target.files[0];
+    if (file) {
+      // Update your state with the selected file
+      setImage(file);
+    }
+  };
+  //console.log(item._id)
   return (
-    <ModalWrapper className={isOpen ? "open" : ""}>
+    <ModalWrapper >
       <ModalContent>
-        <CloseButton onClick={closeModal}>&times;</CloseButton>
-        <h2>{item.itemName}</h2>
-        <p>provider: {item.provider}</p>
-        <p>Bought prise: {item.price}birr</p>
-        <p>provides pises: {item.amount}pises</p>
-        <p>registered at: {timeDisplayedDay}</p>
-        
+        {item && (
+          <div>
+            <Typography
+              variant="h3"
+              align="center"
+              style={{ borderBottom: "2px solid black" }}
+            >
+              {item.itemName}
+            </Typography>
+            <Grid container justifyContent="center" alignItems="center" sx={{pt:4}}>
+            <CardMedia
+                component="img"
+                src={
+                  item.imageUrl
+                    ? `http://localhost:5000/${item.imageUrl}`
+                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                }
+                alt=""
+                // height="300"
+                sx={{ width: 200, height: 200 }}
+              /></Grid>
+            <Typography align="center" variant="h6">
+              provider: {item.provider}
+            </Typography>
+            <Typography align="center" variant="h6">
+              Bought prise: {item.price}birr
+            </Typography>
+            <Typography align="center" variant="h6">
+              provides pises: {item.amount}pises
+            </Typography>
+            <Typography align="center" variant="h6">
+             uploaded by: {item.user}
+            </Typography>
+           
+            {item.createdAt && (
+              <Typography align="center" variant="h6">
+                Created At: {item.createdAt ? item.createdAt.split("T")[0] : ""}
+              </Typography>
+            )}
+          </div>
+        )}
+        {/* <CloseButton onClick={(e) =>setIsModalOpen(false)}>&times;</CloseButton> */}
+
         <br />
-        <FormContainer  onSubmit={onCreatesubmit}>
-          <Title>Update</Title>
-          <Label htmlFor="ItemName">ItemName</Label>
-          <Input
-            type="text"
-            id="ItemName"
-            name="ItemName"
-            defaultValue={item.itemName}
-            onChange={(e) => setItemName(e.target.value)}
-            required
-          />
-          <Label htmlFor="Provider">Provider</Label>
-          <Input
-            type="text"
-            id="Provider"
-            name="Provider"
-            defaultValue={item.provider}
-            onChange={(e) => setProvider(e.target.value)}
-            required
-          />
-          <Label htmlFor="price">price</Label>
-          <Input
-            type="text"
-            id="price"
-            name="price"
-            defaultValue={item.price}
-            onChange={(e) => setprice(e.target.value)}
-            required
-          />
-           <Label htmlFor="amount">Amount</Label>
-          <Input
-            type="text"
-            name="amount"
-            id="amount"
-            defaultValue={item.amount}
-            // value={item.amount}
-            onChange={(e) =>  setAmount(e.target.value)}
-          />
-          <SubmitButton type="submit">Update</SubmitButton>
-        </FormContainer>
+        <Grid container justifyContent="center" alignItems="center">
+          <FormContainer onSubmit={onCreatesubmit}>
+            <Typography
+              align="center"
+              variant="h5"
+              style={{ borderBottom: "2px solid black" }}
+              sx={{ mb: 1 }}
+            >
+              Update
+            </Typography>
+            <Label htmlFor="ItemName">ItemName</Label>
+            <Input
+              type="text"
+              id="ItemName"
+              name="ItemName"
+              onChange={(e) => setItemName(e.target.value)}
+              required
+            />
+            <Label htmlFor="Provider">Provider</Label>
+            <Input
+              type="text"
+              id="Provider"
+              name="Provider"
+              onChange={(e) => setProvider(e.target.value)}
+              required
+            />
+            <Label htmlFor="price">price</Label>
+            <Input
+              type="text"
+              id="price"
+              name="price"
+              onChange={(e) => setprice(e.target.value)}
+              required
+            />
+            <Label htmlFor="amount">Amount</Label>
+            <Input
+              type="text"
+              name="amount"
+              id="amount"
+              // value={item.amount}
+              onChange={(e) => setAmount(e.target.value)}
+              required
+            />
+               
+            <Label htmlFor="image">Update Image</Label>
+            <Input
+              type="file"
+              name="image"
+              id="image"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+        
+            <SubmitButton type="submit">Update</SubmitButton>
+          </FormContainer>
+        </Grid>
       </ModalContent>
     </ModalWrapper>
   );
@@ -121,28 +215,30 @@ const HoverModel = ({ isOpen, closeModal, item,onUpdate }) => {
 export default HoverModel;
 
 const ModalWrapper = styled.div`
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding-top: 60px;
+padding: 0px 76px;
+  // display: none;
+  // position: fixed;
+  // z-index: 1;
+  // left: 0;
+  // top: 0;
+  // width: 100%;
+  // height: 100%;
+  // overflow: auto;
+  // background-color: rgba(0, 0, 0, 0.4);
+  // padding-top: 60px;
 
-  &.open {
-    display: block;
-  }
+  // &.open {
+  //   display: block;
+  // }
 `;
 
 const ModalContent = styled.div`
   background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  // margin: 0% auto;
+  // padding: 20px;
+  // border: 1px solid #888;
+  // width: 30%;
+  // height: 100%;
 `;
 
 const CloseButton = styled.span`
@@ -178,7 +274,7 @@ const FormContainer = styled.form`
 const Title = styled.span`
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   color: #1a202c;
 `;
 

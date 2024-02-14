@@ -19,6 +19,7 @@ const userschema = mongoose.Schema({
         type: String,
         default: "user"
     },
+  
 
 
 },

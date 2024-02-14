@@ -120,16 +120,16 @@ export default SignInPage
 
 
 const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // width: 100%;
+  // height: 100vh;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 `;
 const GotoRegister = styled(Link)``;
 const FormContainer = styled.div`
   width: 320px;
-  border-radius: 0.75rem;
+  // border-radius: 0.75rem;
   background-color: rgba(92,188,99, 95%);
   padding: 2rem;
   color: rgba(62, 58, 57);

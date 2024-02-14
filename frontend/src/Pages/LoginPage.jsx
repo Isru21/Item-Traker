@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
@@ -30,10 +30,10 @@ const LoginPage = () => {
         console.log(data)
         localStorage.setItem("token", JSON.stringify(data));
 
-        if(data.role === 'admin'){
-          window.location.href = "/Adminpage";
-          return
-        }
+        // if(data.role === 'admin'){
+        //   window.location.href = "/Adminpage";
+        //   return
+        // }
         // Redirect to the "api/songs" page
         window.location.href = "/mainpage";
       } else {

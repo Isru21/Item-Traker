@@ -1,19 +1,42 @@
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import Items from "./ItemComponents/Items";
 import SeachedItems from "./ItemComponents/SeachedItems";
 import { useState, useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import AddItemPage from "./Pages/AddItemPage";
+import SignInPage from "./Pages/SignInPage"
 import HoverModel from "./ItemComponents/HoverModel";
+import Navbar from "./Pages/Navebar";
+import AdminPage from "./Pages/AdminPage";
 // import DOMPurify from 'dompurify';
+//mui
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+//mui
+import { Button, Grid, Paper } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
 
-function App() {
+
+function App({ itemsearch }) {
   const [items, setItems] = useState([]);
   const [SearchedItems, setSearchedItems] = useState([]);
   const [userReqSearch, setUserReqSearch] = useState("");
   const [ItemAlternator, setItemAlternator] = useState(true);
   const [isValid, setIsValid] = useState(true);
-  const [refrashe, setrefrashe] = useState ("");
+  const [refrashe, setrefrashe] = useState("");
+  const [itemcompleteRefrashe, setItemcompleteRefrashe] = useState("");
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEmployeeFromOpen, setIsEmployeeFromOpen] = useState(false)
+  const [isShowemployeeopen, setIsShowemployeeopen] = useState(false)
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [Idset, setIdset] = useState('')
+ 
 
+  console.log(itemsearch, "search nav new");
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     // console.log(storedToken)
@@ -44,21 +67,21 @@ function App() {
       .catch((error) => {
         console.error("Fetch error:", error);
       });
-  }, []);
+  }, [itemcompleteRefrashe]);
 
-  const redirectToAddItems = () => {
-    window.location.href = "/AddItems";
-  };
+  // const redirectToAddItems = () => {
+  //   // window.location.href = "/AddItems";
+  // };
 
   useEffect(() => {
     handleSubmit();
-  }, [userReqSearch,refrashe]);
+  }, [userReqSearch, refrashe]);
 
   const handleSubmit = async (e) => {
-  //  e.preventDefault();
+    //  e.preventDefault();
     const storedToken = localStorage.getItem("token");
     let tokenString = "";
-    console.log("selam");
+   
 
     if (storedToken) {
       const tokenObject = JSON.parse(storedToken);
@@ -84,7 +107,7 @@ function App() {
       return;
     }
 
-    setIsValid(true); 
+    setIsValid(true);
     fetch(
       `http://localhost:5000/api/items/search?Searched_item=${userReqSearch}`,
       {
@@ -114,8 +137,11 @@ function App() {
         console.error("Fetch error:", error);
       });
   };
-
-  const deleteItem = (_id) => {
+  const handleDeletecheck =  (_id) => {
+    setIdset(_id)
+    setShowConfirmation(!showConfirmation);
+  };
+  const deleteItem = () => {
     // const refrashe = "";
     //console.log(_id)
     const storedToken = localStorage.getItem("token");
@@ -126,17 +152,16 @@ function App() {
       const tokenObject = JSON.parse(storedToken);
       tokenString = tokenObject.token;
       userRoleString = tokenObject.role;
-      
     }
 
     const bearerToken = tokenString;
     const userRole = userRoleString;
 
-    if(userRole === "user"){
-      alert("not outerised only allowed for admins")
+    if (userRole === "user") {
+      alert("not outerised only allowed for admins");
     }
 
-    fetch(`http://localhost:5000/api/items/${_id}`, {
+    fetch(`http://localhost:5000/api/items/${Idset}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${bearerToken}`,
@@ -147,16 +172,22 @@ function App() {
           throw new Error("Network response was not ok");
         }
 
-        setItems((prevSongs) => prevSongs.filter((item) => item._id !== _id));
+        setItems((prevSongs) => prevSongs.filter((item) => item._id !== Idset));
 
         console.log("item deleted successfully!");
-        setrefrashe(_id)
+        setrefrashe(Idset);
       })
       .catch((error) => {
         console.error("Fetch error:", error);
       });
-  }
+      setShowConfirmation(false)
+  };
 
+  // const redirectToAddItems = (index) => {
+  //   // setSelectedImageIndex(index);
+  //   setIsModalOpen(true);
+  //   setIsEmployeeFromOpen(true)
+  // };
 
   // const ItemCliked = (itemName) =>{
   //   window.location.href = "/moreInfo";
@@ -164,32 +195,89 @@ function App() {
 
   return (
     <Header>
-      
-        <FormControl>
-          <Input
-            className="input input-alt"
-            placeholder="Search"
-            // required
-            type="text"
-            name="search"
-            id="search"
-            value={userReqSearch}
-            onChange={(e) => setUserReqSearch(e.target.value)}
-          />
-          {/* <InputAlt/> */}
-
-          <InputBorderAlt className="input-border input-border-alt" />
-
-          <HoverIcon onClick={redirectToAddItems} />
-        </FormControl>
+      <Navbar
+        userReqSearch={userReqSearch}
+        setUserReqSearch={setUserReqSearch}
+        setIsModalOpen={setIsModalOpen}
+        setIsEmployeeFromOpen={setIsEmployeeFromOpen}
+        setIsShowemployeeopen={setIsShowemployeeopen}
+        
+      />
     
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          {/* <DialogTitle>Apartment Image</DialogTitle> */}
+          <DialogActions style={{ width: "100%", height: "100%" }}>
+            <AddItemPage setItemcompleteRefrashe={setItemcompleteRefrashe} />
+          </DialogActions>
+        </Dialog>
 
+         <Dialog open={isEmployeeFromOpen} onClose={() => setIsEmployeeFromOpen(false)}>
+           <DialogActions style={{ width: "100%", height: "100%" }}>
+             <SignInPage />
+           </DialogActions>
+         </Dialog>
+
+         <Dialog open={isShowemployeeopen} onClose={() => setIsShowemployeeopen(false)}>
+           <DialogActions style={{ width: "100%", height: "100%" }}>
+             <AdminPage  />
+           </DialogActions>
+         </Dialog>
       <Body>
+      {showConfirmation && (
+        <Paper
+          elevation={21} // Add elevation for a shadow effect
+          sx={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "rgba(255, 255, 255, 95%)",
+            borderRadius:2,
+            padding: 2,
+            zIndex: 9999,
+          }}
+        >
+          <Typography variant="h6" sx={{ mb:1 , mt:1, color: "red" }}>
+            Are you sure you want to remove this Item?
+          </Typography>
+          <Grid container justifyContent="center" alignItems="center"sx={{mb:1}}>
+            <Button
+             // variant="contained"
+              sx={{
+                mr: 2,
+                color: "#CC645E",
+                "&:hover": {
+                  backgroundColor: "#CC645E",
+                  color:'white'
+                },
+              }}
+              onClick={deleteItem}
+            >
+              Yes
+            </Button>
+            <Button
+             
+              // variant="outlined"
+              sx={{
+                outlineColor:'#78B777',
+              color: "#78B777",
+                "&:hover": {
+                  backgroundColor: "#78B777",
+                  color:'white'
+                },
+              }}
+              onClick={() => setShowConfirmation(false)}
+            >
+              No
+            </Button>
+          </Grid>
+        </Paper>
+      )}
         {" "}
         {ItemAlternator || userReqSearch === "" ? (
-          <Items items={items} deleteItem={deleteItem}/>
+          <Items items={items}  handleDeletecheck={handleDeletecheck}  />
         ) : (
-          <SeachedItems SearchedItems={SearchedItems}  deleteItem={deleteItem} />
+          <SeachedItems SearchedItems={SearchedItems} handleDeletecheck={handleDeletecheck} />
         )}{" "}
         {/*<AiOutlinePlus />  */}{" "}
       </Body>
@@ -201,19 +289,19 @@ function App() {
 export default App;
 const Body = styled.div`
   margin: 20vh 4vw;
-//  display: flex;
-//     flex-direction: row;
-//     flex-wrap: wrap;
+  //  display: flex;
+  //     flex-direction: row;
+  //     flex-wrap: wrap;
   //width:27vw
 `;
 const Header = styled.div`
-  background-size: 100%;
-  width: 100vw;
-  height: 25vh;
-  position: absolute;
-  z-index: -1;
-  //background-color: rgba(255, 215, 0, 95%);
-  background-color: rgba(92,188,99, 95%);
+  // background-size: 100%;
+  // width: 100vw;
+  // height: 25vh;
+  // position: absolute;
+  // z-index: -1;
+  // //background-color: rgba(255, 215, 0, 95%);
+  // background-color: rgba(92, 188, 99, 95%);
 
   // width: 320px;
   // border-radius: 0.75rem;

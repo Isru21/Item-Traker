@@ -1,10 +1,10 @@
-import styled from "styled-components/macro"
+import styled from "styled-components"
 // import Items from "../ItemComponents/Items";
 import { useState, /*useEffect*/ } from "react"
 import HoverModel from "../ItemComponents/HoverModel"
 import HoverModelForSearched from "../ItemComponents/HoverModelForSearched"
 
-const AddItemPage = () => {
+const AddItemPage = ({setItemcompleteRefrashe}) => {
   const [provider, setProvider] = useState ("")
   const [itemName, setItemName] = useState ("")
   const [price, setprice] = useState ("")
@@ -12,6 +12,9 @@ const AddItemPage = () => {
 
   // const [createdAt, setcreatedAt] = useState("")
   const [items, setItems] = useState([]);
+  const [image, setImage] = useState(null);
+
+
 
   
  
@@ -19,7 +22,9 @@ const AddItemPage = () => {
   const addItem = (item) => {
     const newItem = { ...item };
     setItems([...items, newItem]);
-    alert('completed');
+    setItemcompleteRefrashe(newItem);
+    window.location.href = "/mainpage";
+    alert('completed add');
   }
 
   const addSearchedItem = (searchedItem) => {
@@ -35,66 +40,70 @@ const AddItemPage = () => {
 
     const storedToken = localStorage.getItem("token");
     let tokenString = "";
-    
 
     if (storedToken) {
       const tokenObject = JSON.parse(storedToken);
       tokenString = tokenObject.token;
-      
     }
+
     const bearerToken = tokenString;
-    
 
-    // if(userRoleCheck!=="Admin"){
-    //   window.location.href = "/";
-    //   return;
-    // }
-
-
-    // Check if both the song name and artist are entered
-    if (!provider || !itemName || !price  || !amount) {
-      alert("enter all the nessasary parts");
+    if (!provider || !itemName || !price || !amount) {
+      alert("Enter all the necessary parts");
       return;
     }
 
-    // Create a new song object with the entered data
-    const newItem = {
-      provider: provider,
-      itemName: itemName,
-      price: price,
-      amount: amount,
-    };
+    // Create a new FormData object
+    const formData = new FormData();
+    formData.append("itemName", itemName);
+    formData.append("provider", provider);
+    formData.append("price", price);
+    formData.append("amount", amount);
+
+    // Check if an image is selected
+    if (image) {
+      formData.append("image", image); // Append the selected image file to the form data
+    }
 
     try {
-      // Send the POST request to add the new song
+      // console.log(formData)
+      // Send the POST request to add the new item
       const response = await fetch("http://localhost:5000/api/items", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${bearerToken}`,
         },
-        body: JSON.stringify(newItem),
+        body: formData,
       });
-        console.log(response)
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
 
-      // Call the onAdd function passed as a prop to update the parent component's state
+      // Call the addItem function passed as a prop to update the parent component's state
       addItem(data);
-      // window.location.href = "/mainpage";
+
+      // Reset the form fields
       setProvider("");
       setItemName("");
       setprice("");
       setAmount("");
+      setImage(null);
 
+      // alert("Item registered successfully");
     } catch (error) {
       console.error("Fetch error:", error);
+      alert("Failed to register item");
     }
+  };
 
-  }
+  const handleImageChange = (e) => {
+    // Update the 'image' state when a new image is selected
+    setImage(e.target.files[0]);
+  };
+
 
   return (
     <Container>
@@ -153,6 +162,16 @@ const AddItemPage = () => {
             onChange={(e) =>  setAmount(e.target.value)}
           />
         </FormGroup>
+        <FormGroup>
+            <Label htmlFor="image">Item Image</Label>
+            <Input
+              type="file"
+              name="image"
+              id="image"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </FormGroup>
        
         <SignButton type="submit">Register</SignButton>
       </form>
@@ -168,16 +187,16 @@ export default AddItemPage
 
 
 const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // width: 100%;
+  // height: 100vh;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 `;
 // const GotoRegister = styled(Link)``;
 const FormContainer = styled.div`
   width: 320px;
-  border-radius: 0.75rem;
+  // border-radius: 0.75rem;
   background-color: rgba(92,188,99, 95%);
   padding: 2rem;
   color: rgba(62, 58, 57);
