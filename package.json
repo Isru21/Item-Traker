@@ -4,7 +4,7 @@
   "description": "am working on this project for our store to that its easir to track items",
   "main": "index.js",
   "scripts": {
-    "start": "node backend(Server.js)",
+    "start": "node backend/server.js",
     "server": "nodemon backend/server.js"
   },
   "author": "Israel Abebaw",
