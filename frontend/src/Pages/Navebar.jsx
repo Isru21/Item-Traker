@@ -59,10 +59,10 @@ export default function Navbar({
           }}
           maxWidth="xl"
         >
-          <Typography variant="h5" color={"black"}>
+          {/* <Typography variant="h5" color={"black"}>
             {" "}
             <strong>Item Tracker</strong>
-          </Typography>
+          </Typography> */}
 
           {/* <Grid container justifyContent="center" alignItems="center"> */}
           <Input
@@ -166,7 +166,7 @@ const Input = styled.input`
   color: black;
   font-size: 0.9rem;
   background-color: #fff;
-  width: 30%;
+  width: 40wv;
   box-sizing: border-box;
   padding-inline: 0.5em;
   padding-block: 0.7em;

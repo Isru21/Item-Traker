@@ -74,7 +74,7 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <SignButton type="submit">Sign in</SignButton>
+        <SignButton type="submit">Sign </SignButton>
         
       </form>
       <SocialMessage></SocialMessage>
