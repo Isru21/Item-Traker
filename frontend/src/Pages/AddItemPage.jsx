@@ -68,7 +68,7 @@ const AddItemPage = ({setItemcompleteRefrashe}) => {
     try {
       // console.log(formData)
       // Send the POST request to add the new item
-      const response = await fetch("http://localhost:5000/api/items", {
+      const response = await fetch("https://item-traker.onrender.com/api/items", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${bearerToken}`,

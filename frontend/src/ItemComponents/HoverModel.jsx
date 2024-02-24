@@ -64,7 +64,7 @@ const HoverModel = ({
       console.log(formData, "new item");
       // Send the POST request to add the new song
       const response = await fetch(
-        `http://localhost:5000/api/items/${item._id}`,
+        `https://item-traker.onrender.com/api/items/${item._id}`,
         {
           method: "PUT",
           headers: {
@@ -121,7 +121,7 @@ const HoverModel = ({
                 component="img"
                 src={
                   item.imageUrl
-                    ? `http://localhost:5000/${item.imageUrl}`
+                    ? `https://item-traker.onrender.com/${item.imageUrl}`
                     : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                 }
                 alt=""

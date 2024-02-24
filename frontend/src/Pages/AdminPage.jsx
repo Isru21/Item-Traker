@@ -38,7 +38,7 @@ const AdminPage = () => {
       alert("not outerised only allowed for admins");
     }
 
-    fetch(`http://localhost:5000/api/users/${Idset}`, {
+    fetch(`https://item-traker.onrender.com/api/users/${Idset}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${bearerToken}`,
@@ -81,7 +81,7 @@ const AdminPage = () => {
       return;
     }
 
-    fetch("http://localhost:5000/api/users/all", {
+    fetch("https://item-traker.onrender.com/api/users/all", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${bearerToken}`,
