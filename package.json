@@ -4,8 +4,8 @@
   "description": "am working on this project for our store to that its easir to track items",
   "main": "index.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "server": "nodemon backend/server.js",
+    "start": "node backend/index.js",
+    "server": "nodemon backend/index.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -24,6 +24,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
     "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.1",
     "react": "^18.2.0"
   },
   "devDependencies": {
