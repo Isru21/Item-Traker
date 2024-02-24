@@ -78,11 +78,7 @@ const LoginPage = () => {
         
       </form>
       <SocialMessage></SocialMessage>
-      <Signup>
-        Don't have an account?
-        <GotoRegister to={`/register`}>Sign up</GotoRegister>
- 
-      </Signup>
+      
     </FormContainer>
   </Container>
   // <div><h1>laeiblablkanlaknla</h1></div>
