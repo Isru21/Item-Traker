@@ -27,7 +27,7 @@ const SignInPage = () => {
 
       if (response.ok) {
         // Login successful, handle further actions (e.g., redirect to another page)
-        console.log("Login successful!");
+        console.log("sinup successful!");
         const data = await response.json();
         localStorage.setItem("token", JSON.stringify(data));
 
