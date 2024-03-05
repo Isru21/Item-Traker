@@ -18,7 +18,7 @@ const HoverModel = ({ item, onUpdate }) => {
   const onCreatesubmit = async (e) => {
     const storedToken = localStorage.getItem("token");
     let tokenString = "";
-    let rolecheck ="";
+    let rolecheck = "";
 
     if (storedToken) {
       const tokenObject = JSON.parse(storedToken);
@@ -27,7 +27,7 @@ const HoverModel = ({ item, onUpdate }) => {
     }
     const bearerToken = tokenString;
     const userRole = rolecheck;
-    setrole(userRole)
+    setrole(userRole);
 
     const formData = new FormData();
     formData.append("itemName", itemName);
@@ -121,10 +121,10 @@ const HoverModel = ({ item, onUpdate }) => {
             <Typography align="center" variant="h6">
               Amount: {item.amount}pises
             </Typography>
-           { role=="admin"&&
+
             <Typography align="center" variant="h6">
               Uploaded by: {item.user}
-            </Typography>}
+            </Typography>
 
             {item.createdAt && (
               <Typography align="center" variant="h6">

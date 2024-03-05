@@ -2,13 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 //mui
-import {Grid, Typography, CardMedia } from "@mui/material";
-const HoverModel = ({
-
-  searchedItem,
-  onUpdate,
-
-}) => {
+import { Grid, Typography, CardMedia } from "@mui/material";
+const HoverModel = ({ searchedItem, onUpdate }) => {
   const [provider, setProvider] = useState("");
   const [itemName, setItemName] = useState("");
   const [price, setprice] = useState("");
@@ -16,11 +11,10 @@ const HoverModel = ({
   const [image, setImage] = useState(null);
   const [role, setrole] = useState("");
 
-
   const onCreatesubmit = async (e) => {
     const storedToken = localStorage.getItem("token");
     let tokenString = "";
-    let rolecheck ="";
+    let rolecheck = "";
 
     if (storedToken) {
       const tokenObject = JSON.parse(storedToken);
@@ -29,7 +23,7 @@ const HoverModel = ({
     }
     const bearerToken = tokenString;
     const userRole = rolecheck;
-    setrole(userRole)
+    setrole(userRole);
 
     const formData = new FormData();
     formData.append("itemName", itemName);
@@ -69,7 +63,6 @@ const HoverModel = ({
       const data = await response.json();
       // console.log(data);
       onUpdate(data);
-   
     } catch (error) {
       console.error("Fetch error:", error);
       alert("image updated");
@@ -124,10 +117,10 @@ const HoverModel = ({
             <Typography align="center" variant="h6">
               Amount: {searchedItem.amount}pises
             </Typography>
-            { role=="admin"&&
+
             <Typography align="center" variant="h6">
               Uploaded by: {searchedItem.user}
-            </Typography>}
+            </Typography>
 
             {searchedItem.createdAt && (
               <Typography align="center" variant="h6">
@@ -206,7 +199,9 @@ const HoverModel = ({
 
 export default HoverModel;
 
-const ModalWrapper = styled.div`padding: 0px 76px;`;
+const ModalWrapper = styled.div`
+  padding: 0px 76px;
+`;
 
 const ModalContent = styled.div``;
 
@@ -218,7 +213,6 @@ const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
 `;
-
 
 const Label = styled.label`
   color: rgb(0, 0, 0);
