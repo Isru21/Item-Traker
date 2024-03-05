@@ -10,12 +10,7 @@ const SeachedItems = ({ SearchedItems, handleDeletecheck }) => {
   // console.log(SearchedItems)
   return (
     <Itemholder>
-      <Grid
-        container
-        spacing={2}
-        sx={{ marginBottom: 4 }}
-        item
-      >
+      <Grid container spacing={2} sx={{ marginBottom: 4 }} item>
         {SearchedItems.map((searchedItem) => (
           <Grid item key={searchedItem} xs={12} sm={6} md={6}>
             <CardActionArea
@@ -30,7 +25,7 @@ const SeachedItems = ({ SearchedItems, handleDeletecheck }) => {
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  backgroundColor: " #535353",
+                  backgroundColor: "#707378",
                 }}
               >
                 <CardContent sx={{ flexGrow: 1 }}>

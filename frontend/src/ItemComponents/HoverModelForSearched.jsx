@@ -14,17 +14,23 @@ const HoverModel = ({
   const [price, setprice] = useState("");
   const [amount, setAmount] = useState("");
   const [image, setImage] = useState(null);
+  const [role, setrole] = useState("");
 
 
   const onCreatesubmit = async (e) => {
     const storedToken = localStorage.getItem("token");
     let tokenString = "";
+    let rolecheck ="";
 
     if (storedToken) {
       const tokenObject = JSON.parse(storedToken);
       tokenString = tokenObject.token;
+      rolecheck = tokenObject.role;
     }
     const bearerToken = tokenString;
+    const userRole = rolecheck;
+    setrole(userRole)
+
     const formData = new FormData();
     formData.append("itemName", itemName);
     formData.append("provider", provider);
@@ -41,7 +47,7 @@ const HoverModel = ({
     // }
 
     try {
-      console.log(formData, "new item");
+      // console.log(formData, "new item");
       // Send the POST request to add the new song
       const response = await fetch(
         `https://item-traker.onrender.com/api/items/${searchedItem._id}`,
@@ -110,17 +116,18 @@ const HoverModel = ({
               />
             </Grid>
             <Typography align="center" variant="h6">
-              provider: {searchedItem.provider}
+              Provider: {searchedItem.provider}
             </Typography>
             <Typography align="center" variant="h6">
-              Bought prise: {searchedItem.price}birr
+              Price: {searchedItem.price}birr
             </Typography>
             <Typography align="center" variant="h6">
-              provides pises: {searchedItem.amount}pises
+              Amount: {searchedItem.amount}pises
             </Typography>
+            { role=="admin"&&
             <Typography align="center" variant="h6">
-              uploaded by: {searchedItem.user}
-            </Typography>
+              Uploaded by: {searchedItem.user}
+            </Typography>}
 
             {searchedItem.createdAt && (
               <Typography align="center" variant="h6">

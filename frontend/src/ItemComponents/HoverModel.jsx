@@ -1,33 +1,33 @@
 import React from "react";
 import styled from "styled-components";
-import { useState} from "react";
+import { useState } from "react";
 //mui
-import { Grid, Typography,CardMedia } from "@mui/material";
+import { Grid, Typography, CardMedia } from "@mui/material";
 
-const HoverModel = ({
-  item,
-  onUpdate,
-}) => {
+const HoverModel = ({ item, onUpdate }) => {
   const [provider, setProvider] = useState("");
   const [itemName, setItemName] = useState("");
   const [price, setprice] = useState("");
   const [amount, setAmount] = useState("");
   const [image, setImage] = useState(null);
+  const [role, setrole] = useState("");
 
   // const timeSplited = item.createdAt.split("T");
   // const timeDisplayedDay = timeSplited[0];
 
   const onCreatesubmit = async (e) => {
-    
     const storedToken = localStorage.getItem("token");
     let tokenString = "";
+    let rolecheck ="";
 
     if (storedToken) {
       const tokenObject = JSON.parse(storedToken);
       tokenString = tokenObject.token;
+      rolecheck = tokenObject.role;
     }
     const bearerToken = tokenString;
-
+    const userRole = rolecheck;
+    setrole(userRole)
 
     const formData = new FormData();
     formData.append("itemName", itemName);
@@ -45,7 +45,7 @@ const HoverModel = ({
     // }
 
     try {
-      console.log(formData, "new item");
+      // console.log(formData, "new item");
       // Send the POST request to add the new song
       const response = await fetch(
         `https://item-traker.onrender.com/api/items/${item._id}`,
@@ -54,13 +54,12 @@ const HoverModel = ({
           headers: {
             // "Content-Type": "application/json",
             Authorization: `Bearer ${bearerToken}`,
-            
           },
-          
+
           body: formData,
         }
       );
-    
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -70,7 +69,7 @@ const HoverModel = ({
       onUpdate(data);
     } catch (error) {
       console.error("Fetch error:", error);
-       alert("image updated");
+      alert("image updated");
     }
   };
 
@@ -84,7 +83,7 @@ const HoverModel = ({
   };
   //console.log(item._id)
   return (
-    <ModalWrapper >
+    <ModalWrapper>
       <ModalContent>
         {item && (
           <div>
@@ -95,8 +94,13 @@ const HoverModel = ({
             >
               {item.itemName}
             </Typography>
-            <Grid container justifyContent="center" alignItems="center" sx={{pt:4}}>
-            <CardMedia
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              sx={{ pt: 4 }}
+            >
+              <CardMedia
                 component="img"
                 src={
                   item.imageUrl
@@ -106,20 +110,22 @@ const HoverModel = ({
                 alt=""
                 // height="300"
                 sx={{ width: 200, height: 200 }}
-              /></Grid>
+              />
+            </Grid>
             <Typography align="center" variant="h6">
-              provider: {item.provider}
+              Provider: {item.provider}
             </Typography>
             <Typography align="center" variant="h6">
-              Bought prise: {item.price}birr
+              Price: {item.price}birr
             </Typography>
             <Typography align="center" variant="h6">
-              provides pises: {item.amount}pises
+              Amount: {item.amount}pises
             </Typography>
+           { role=="admin"&&
             <Typography align="center" variant="h6">
-             uploaded by: {item.user}
-            </Typography>
-           
+              Uploaded by: {item.user}
+            </Typography>}
+
             {item.createdAt && (
               <Typography align="center" variant="h6">
                 Created At: {item.createdAt ? item.createdAt.split("T")[0] : ""}
@@ -173,7 +179,7 @@ const HoverModel = ({
               onChange={(e) => setAmount(e.target.value)}
               required
             />
-               
+
             <Label htmlFor="image">Update Image</Label>
             <Input
               type="file"
@@ -182,7 +188,7 @@ const HoverModel = ({
               accept="image/*"
               onChange={handleImageChange}
             />
-        
+
             <SubmitButton type="submit">Update</SubmitButton>
           </FormContainer>
         </Grid>
@@ -194,7 +200,7 @@ const HoverModel = ({
 export default HoverModel;
 
 const ModalWrapper = styled.div`
-padding: 0px 76px;
+  padding: 0px 76px;
 `;
 
 const ModalContent = styled.div`
@@ -222,10 +228,8 @@ const FormContainer = styled.form`
   background-color: #fff;
   padding: 20px;
 
- 
   display: flex;
   flex-direction: column;
-
 `;
 
 const Title = styled.span`

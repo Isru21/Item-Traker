@@ -28,7 +28,7 @@ export default function Navbar({
   const [userRoleCheck, SetuserRoleCheck] = useState("");
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    console.log(storedToken);
+    // console.log(storedToken);
 
     let roleString = "";
 
@@ -68,11 +68,12 @@ export default function Navbar({
                   }}
                 >
                   <IconButton
-                    size="large"
+                    size="medium"
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
                     color="inherit"
+                    sx={{ backgroundColor: "#707378" }}
                   >
                     {" "}
                     <AddIcon />
@@ -89,7 +90,16 @@ export default function Navbar({
                       borderRadius: 0,
                     }}
                   >
-                    <PersonAddIcon />
+                    <IconButton
+                      size="medium"
+                      aria-label="account of current user"
+                      aria-controls="primary-search-account-menu"
+                      aria-haspopup="true"
+                      color="inherit"
+                      sx={{ backgroundColor: "#707378" }}
+                    >
+                      <PersonAddIcon />
+                    </IconButton>
                   </Button>
                 )}
                 {userRoleCheck === "admin" && (
@@ -101,7 +111,16 @@ export default function Navbar({
                       borderRadius: 0,
                     }}
                   >
-                    <GroupIcon />
+                    <IconButton
+                      size="medium"
+                      aria-label="account of current user"
+                      aria-controls="primary-search-account-menu"
+                      aria-haspopup="true"
+                      color="inherit"
+                      sx={{ backgroundColor: "#707378" }}
+                    >
+                      <GroupIcon />
+                    </IconButton>
                   </Button>
                 )}
               </Grid>

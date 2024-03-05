@@ -25,7 +25,7 @@ const Items = ({ items, handleDeletecheck }) => {
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  backgroundColor: " #535353",
+                  backgroundColor: "#707378",
                 }}
               >
                 <CardContent sx={{ flexGrow: 1 }}>
@@ -33,7 +33,6 @@ const Items = ({ items, handleDeletecheck }) => {
                     key={item._id}
                     item={item}
                     handleDeletecheck={handleDeletecheck}
-             
                   />
                 </CardContent>
               </Card>
