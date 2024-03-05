@@ -1,7 +1,5 @@
-
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 const SignInPage = () => {
   const [name, setname] = useState("");
   const [phone, setphone] = useState("");
@@ -108,31 +106,21 @@ const SignInPage = () => {
           <SignButton type="submit">Sign up</SignButton>
         </form>
         <SocialMessage></SocialMessage>
-        <Signup>
-         Go back to the  <GotoRegister to={`/`}>Login</GotoRegister>
-        </Signup>
       </FormContainer>
     </Container>
   );
-}
+};
 
-export default SignInPage
-
+export default SignInPage;
 
 const Container = styled.div`
-  // width: 100%;
-  // height: 100vh;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
 `;
-const GotoRegister = styled(Link)``;
+
 const FormContainer = styled.div`
-  width: 320px;
-  // border-radius: 0.75rem;
-  background-color: rgba(92,188,99, 95%);
+  width: 279px;
+  background-color: #474747;
   padding: 2rem;
-  color: rgba(62, 58, 57);
+  color: white;
 `;
 
 const Title = styled.p`
@@ -151,7 +139,7 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   display: block;
-  color: rgba(62, 58, 57);
+  color: white;
   margin-bottom: 4px;
 `;
 
@@ -160,10 +148,7 @@ const Input = styled.input`
   border-radius: 0.375rem;
   border: 1px solid rgba(55, 65, 81, 1);
   outline: 0;
- // background-color: rgba(17, 24, 39, 1);
   padding: 0.75rem 1rem;
- // color: rgba(243, 244, 246, 1);
-
   &:focus {
     border-color: rgba(167, 139, 250);
   }
@@ -172,7 +157,7 @@ const Input = styled.input`
 const SignButton = styled.button`
   display: block;
   width: 100%;
-  background-color: rgba( 229, 143, 101, 1);
+  background-color: rgba(229, 143, 101, 1);
   padding: 0.75rem;
   text-align: center;
   color: rgba(62, 58, 57);
@@ -180,8 +165,8 @@ const SignButton = styled.button`
   border-radius: 0.375rem;
   font-weight: 600;
   &:hover {
-    background-color: rgb(255,128,125);
-    
+    background-color: rgb(26, 112, 154);
+    color: white;
   }
   cursor: pointer;
 `;
@@ -224,11 +209,11 @@ const Moderate = styled(StrengthSegment)`
 `;
 
 const Strong = styled(StrengthSegment)`
-  background-color: rgb(203,221,86); /* Blue for strong */
+  background-color: rgb(203, 221, 86); /* Blue for strong */
 `;
 
 const PasswordIndicatorText = styled.p`
   margin-left: 0.5rem;
   font-size: 0.75rem;
-  color:rgba(62, 58, 57);
+  color: rgba(62, 58, 57);
 `;

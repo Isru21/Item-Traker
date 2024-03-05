@@ -1,15 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { useState /*useEffect*/ } from "react";
+import { useState } from "react";
 //mui
-import { Container, Grid, Typography, CardMedia } from "@mui/material";
+import {Grid, Typography, CardMedia } from "@mui/material";
 const HoverModel = ({
-  isOpen,
-  closeModal,
+
   searchedItem,
   onUpdate,
-  setIsModalOpen,
-  isModalOpen,
+
 }) => {
   const [provider, setProvider] = useState("");
   const [itemName, setItemName] = useState("");
@@ -17,10 +15,6 @@ const HoverModel = ({
   const [amount, setAmount] = useState("");
   const [image, setImage] = useState(null);
 
-  // const timeSplited = searchedItem.createdAt.split("T");
-  // const timeDisplayedDay = timeSplited[0];
-
-  // console.log( searchedItem.createdAt, 'time')
 
   const onCreatesubmit = async (e) => {
     const storedToken = localStorage.getItem("token");
@@ -31,19 +25,6 @@ const HoverModel = ({
       tokenString = tokenObject.token;
     }
     const bearerToken = tokenString;
-
-    // const formData = new FormData();
-    // formData.append("itemName", itemName);
-    // formData.append("provider", provider);
-    // formData.append("price", price);
-    // formData.append("amount", amount);
-    // const newItem = {
-    //   provider: provider,
-    //   itemName: itemName,
-    //   price: price,
-    //   amount: amount,
-    //   image:image
-    // };
     const formData = new FormData();
     formData.append("itemName", itemName);
     formData.append("provider", provider);
@@ -80,13 +61,9 @@ const HoverModel = ({
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       onUpdate(data);
-      // window.location.href = "/mainpage";
-      // setProvider("");
-      // setItemName("");
-      // setprice("");
-      // setAmount("");
+   
     } catch (error) {
       console.error("Fetch error:", error);
       alert("image updated");
@@ -222,67 +199,19 @@ const HoverModel = ({
 
 export default HoverModel;
 
-const ModalWrapper = styled.div`
-  // display: none;
-  // position: fixed;
-  // z-index: 1;
-  // left: 0;
-  // top: 0;
-  // width: 100%;
-  // height: 100%;
-  // overflow: auto;
-  // background-color: rgba(0, 0, 0, 0.4);
-  padding: 0px 76px;
+const ModalWrapper = styled.div`padding: 0px 76px;`;
 
-  // &.open {
-  //   display: block;
-  // }
-`;
-
-const ModalContent = styled.div`
-  // background-color: #fefefe;
-  // margin: 5% auto;
-  // padding: 20px;
-  // border: 1px solid #888;
-  // width: 80%;
-`;
-
-const CloseButton = styled.span`
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-
-  &:hover,
-  &:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-`;
-//------------------------//
+const ModalContent = styled.div``;
 
 const FormContainer = styled.form`
   max-width: 320px;
   width: 100%;
   background-color: #fff;
   padding: 20px;
-
-  // box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
-
-  // border-radius: 10px;
 `;
 
-const Title = styled.span`
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #1a202c;
-`;
 
 const Label = styled.label`
   color: rgb(0, 0, 0);

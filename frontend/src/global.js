@@ -11,7 +11,10 @@ const GlobalStyles = createGlobalStyle`
 
    
     font-family: 'Poppins', sans-serif;
-    background-image:url('https://c0.wallpaperflare.com/preview/350/716/16/bunch-of-vegetables.jpg');
+    background-image:url('http://localhost:5000/backend/uploads/background.jpg');
+    background-size: cover; /* Cover ensures the image covers the entire background without cropping */
+    background-position: center; /* Center the background image */
+    background-attachment: fixed; /* Keeps the background image fixed while the content scrolls */
     
   }
 `;

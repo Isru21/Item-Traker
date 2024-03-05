@@ -1,26 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Users from "../UserComponents/Users";
-// import Item from '../ItemComponents/Item';
 import styled from "styled-components";
 //mui
 import { Button, Grid, Paper, Typography } from "@mui/material";
 
 const AdminPage = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [Idset, setIdset] = useState('')
+  const [Idset, setIdset] = useState("");
 
-
-
-  const setId = (_id)=>{
-    setIdset(_id)
+  const setId = (_id) => {
+    setIdset(_id);
     setShowConfirmation(!showConfirmation);
-    
-  }
+  };
 
-  const deleteuser = () =>{
-    console.log(Idset,'id check')
+  const deleteuser = () => {
+    // console.log(Idset, "id check");
     const storedToken = localStorage.getItem("token");
     let tokenString = "";
     let userRoleString = "";
@@ -57,13 +52,12 @@ const AdminPage = () => {
       .catch((error) => {
         console.error("Fetch error:", error);
       });
-      setShowConfirmation(false)
-  }
-
+    setShowConfirmation(false);
+  };
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    console.log(storedToken);
+    // console.log(storedToken);
     let tokenString = "";
     let roleString = "";
 
@@ -99,7 +93,6 @@ const AdminPage = () => {
       .catch((error) => {
         console.error("Fetch error:", error);
       });
-
   }, []);
 
   const [users, setUser] = useState([]);
@@ -109,55 +102,54 @@ const AdminPage = () => {
       <UserSubBody>
         <Users users={users} setId={setId} />
         {showConfirmation && (
-        <Paper
-          elevation={21} // Add elevation for a shadow effect
-          sx={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: "rgba(255, 255, 255, 95%)",
-            borderRadius:2,
-            padding: 2,
-            zIndex: 9999,
-          }}
-        >
-          <Typography variant="h6" sx={{ mb:1 , mt:1, color: "red" }}>
-            This employee will be delete...proceed?
-          </Typography>
-          <Grid container justifyContent="center" alignItems="center"sx={{mb:1}}>
-            <Button
-             // variant="contained"
-              sx={{
-                mr: 2,
-                color: "#CC645E",
-                "&:hover": {
+          <Paper
+            elevation={21} // Add elevation for a shadow effect
+            sx={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              backgroundColor: "rgba(255, 255, 255, 95%)",
+              borderRadius: 2,
+              padding: 2,
+              zIndex: 9999,
+            }}
+          >
+            <Typography variant="h6" sx={{ mb: 1, mt: 1, color: "red" }}>
+              This employee will be deleted
+            </Typography>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              sx={{ mb: 1 }}
+            >
+              <Button
+                // variant="contained"
+                sx={{
+                  mr: 2,
                   backgroundColor: "#CC645E",
-                  color:'white'
-                },
-              }}
-              onClick={deleteuser}
-            >
-              Yes
-            </Button>
-            <Button
-             
-              // variant="outlined"
-              sx={{
-                outlineColor:'#78B777',
-              color: "#78B777",
-                "&:hover": {
+                  color: "white",
+                }}
+                onClick={deleteuser}
+              >
+                Yes
+              </Button>
+              <Button
+                // variant="outlined"
+                sx={{
+                  outlineColor: "#78B777",
+
                   backgroundColor: "#78B777",
-                  color:'white'
-                },
-              }}
-              onClick={() => setShowConfirmation(false)}
-            >
-              No
-            </Button>
-          </Grid>
-        </Paper>
-      )}
+                  color: "white",
+                }}
+                onClick={() => setShowConfirmation(false)}
+              >
+                No
+              </Button>
+            </Grid>
+          </Paper>
+        )}
       </UserSubBody>
     </WholeBody>
   );
@@ -168,5 +160,3 @@ const WholeBody = styled.div``;
 const UserSubBody = styled.div`
   margin: 0vh 1.5vw;
 `;
-
-

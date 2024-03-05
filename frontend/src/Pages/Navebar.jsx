@@ -1,19 +1,9 @@
-import { Link } from "react-router-dom";
-// import { useAuthContext, useDataContext } from "../../hooks/useContexts";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
 import { Container } from "@mui/system";
-// import { styled } from "@mui/system";
 import { AppBar } from "@mui/material";
 import { Grid } from "@mui/material";
-import { Tabs } from "@mui/material";
-import Typography from "@mui/material/Typography";
-// import styled from "styled-components";
-import { AiOutlinePlus } from "react-icons/ai";
-
 //mui
 import AddIcon from "@mui/icons-material/Add";
-import PaymentsIcon from "@mui/icons-material/Payments";
 import { useEffect, useState } from "react";
 //mui2
 import { styled, alpha } from "@mui/material/styles";
@@ -24,6 +14,8 @@ import IconButton from "@mui/material/IconButton";
 // import Typography from '@mui/material/Typography';
 import InputBase from "@mui/material/InputBase";
 // import MenuIcon from '@mui/icons-material/Menu';
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import GroupIcon from "@mui/icons-material/Group";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function Navbar({
@@ -57,82 +49,88 @@ export default function Navbar({
         // position="absolute"
       >
         {" "}
-        <Grid>
+        <Grid sx={{ mb: 1 }}>
           <Container
             sx={{
-              //f0f0f0
               backgroundColor: "#474747",
-              // m: 1,
-              display: "flex",
-              justifyContent: "space-between",
-              // justifyContent: "space-between",
             }}
             // maxWidth="sm"
           >
             <nav>
-              <Button
-                // variant="outlined"
-                // style={{ backgroundColor: "#2D3642", color: "#fff" }}
-                onClick={(e) => setIsModalOpen(true)}
-                style={{
-                  // color: "#fff",
-                  color: "white",
-                  // backgroundColor: "rgba(0,0,0,.1)",
-                  textDecoration: "underline",
-                  borderRadius: 0,
-                }}
-              >
-                Register Items
-              </Button>
+              <Grid container justifyContent="center" alignItems="center">
+                <Button
+                  onClick={(e) => setIsModalOpen(true)}
+                  style={{
+                    color: "white",
 
-              {/* </Link> */}
-              {userRoleCheck === "admin" && (
-                <Button
-                  // variant="contained"
-                  // style={{ backgroundColor: "#2D3642", color: "#fff" }}
-                  onClick={(e) => setIsEmployeeFromOpen(true)}
-                  style={{
-                    color: "white",
                     textDecoration: "underline",
                     borderRadius: 0,
                   }}
                 >
-                  Add Employee
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                  >
+                    {" "}
+                    <AddIcon />
+                  </IconButton>
                 </Button>
-              )}
-              {userRoleCheck === "admin" && (
-                <Button
-                  // variant="contained"
-                  // style={{ backgroundColor: "#2D3642", color: "#fff" }}
-                  onClick={(e) => setIsShowemployeeopen(true)}
-                  style={{
-                    color: "white",
-                    textDecoration: "underline",
-                    borderRadius: 0,
-                  }}
-                >
-                  show Employees
-                </Button>
-              )}
+
+                {/* </Link> */}
+                {userRoleCheck === "admin" && (
+                  <Button
+                    onClick={(e) => setIsEmployeeFromOpen(true)}
+                    style={{
+                      color: "white",
+                      textDecoration: "underline",
+                      borderRadius: 0,
+                    }}
+                  >
+                    <PersonAddIcon />
+                  </Button>
+                )}
+                {userRoleCheck === "admin" && (
+                  <Button
+                    onClick={(e) => setIsShowemployeeopen(true)}
+                    style={{
+                      color: "white",
+                      textDecoration: "underline",
+                      borderRadius: 0,
+                    }}
+                  >
+                    <GroupIcon />
+                  </Button>
+                )}
+              </Grid>
             </nav>
           </Container>
-          <Toolbar>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                className="input input-alt"
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-                type="text"
-                name="search"
-                id="search"
-                value={userReqSearch}
-                onChange={(e) => setUserReqSearch(e.target.value)}
-              />
-            </Search>
-          </Toolbar>
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            maxWidth="xl"
+          >
+            <Toolbar>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  className="input input-alt"
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                  type="text"
+                  name="search"
+                  id="search"
+                  value={userReqSearch}
+                  onChange={(e) => setUserReqSearch(e.target.value)}
+                />
+              </Search>
+            </Toolbar>
+          </Grid>
         </Grid>
       </AppBar>
     </Box>
@@ -180,60 +178,3 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-// const GreenRingAvatar = styled("div")({
-//   // position: 'relative',
-//   // display: 'inline-block',
-//   marginRight: "7px",
-//   // width: '52px', // Adjust the width to accommodate the increased border size
-//   // height: '52px',
-//   // '&::before': {
-//   //   content: '""',
-//   //   position: 'absolute',
-//   //   top: 0,
-//   //   left: 0,
-//   //   width: '100%',
-//   //   height: '100%',
-//   //   borderRadius: '50%',
-//   //   border: '14px solid #4CAF50', // Green color for the ring
-//   //   boxSizing: 'border-box',
-//   //   pointerEvents: 'none',
-//   // },
-// });
-
-// const Input = styled.input`
-//   color: black;
-//   font-size: 0.9rem;
-//   background-color: #fff;
-//   width: 40wv;
-//   box-sizing: border-box;
-//   padding-inline: 0.5em;
-//   padding-block: 0.7em;
-//   border: none;
-//   border-bottom: var(--border-height) solid var(--border-before-color);
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//   border-radius: 5px;
-
-//   &:focus {
-//     outline: none;
-//   }
-
-//   &:focus + .input-border {
-//     width: 40%;
-//     border-radius: 5px;
-//   }
-// `;
-
-// const HoverIcon = styled(AiOutlinePlus)`
-//   margin-left: 30vw;
-//   cursor: pointer;
-//   color: black;
-//   width: 4vw;
-//   height: 4vh;
-//   // background: rgba(218,192,167);
-//   // display: flex;
-//   // justify-content: center;
-//   // align-items: center;
-//   &:hover {
-//     color: rgba(197, 62, 62, 0.821);
-//   }
-// `;
