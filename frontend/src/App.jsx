@@ -97,7 +97,7 @@ function App({ itemsearch }) {
 
     setIsValid(true);
     fetch(
-      `http://localhost:5000/api/items/search?Searched_item=${userReqSearch}`,
+      `https://item-traker.onrender.com/api/items/search?Searched_item=${userReqSearch}`,
       {
         method: "GET",
         headers: {
@@ -147,7 +147,7 @@ function App({ itemsearch }) {
       alert("not outerised only allowed for admins");
     }
 
-    fetch(`http://localhost:5000/api/items/${Idset}`, {
+    fetch(`https://item-traker.onrender.com/api/items/${Idset}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${bearerToken}`,

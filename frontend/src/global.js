@@ -11,7 +11,7 @@ const GlobalStyles = createGlobalStyle`
 
    
     font-family: 'Poppins', sans-serif;
-    background-image:url('http://localhost:5000/backend/uploads/background.jpg');
+    background-image:url('https://item-traker.onrender.com//backend/uploads/background.jpg');
     background-size: cover; /* Cover ensures the image covers the entire background without cropping */
     background-position: center; /* Center the background image */
     background-attachment: fixed; /* Keeps the background image fixed while the content scrolls */
